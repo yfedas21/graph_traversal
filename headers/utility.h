@@ -1,7 +1,9 @@
 // file that holds the different algorithm code
 
-// sample subroutine format,
-// change as you see fit
-void dijkstra(int number) { 
-    number++;
+namespace utility {
+    // sample subroutine format,
+    // change as you see fit
+    int dijkstra(int number) { 
+        return(++number);
+    }  
 }
