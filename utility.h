@@ -71,10 +71,6 @@ namespace utility {
 		// 10 ROWS by 10 COLUMNS graph  (PAY ATTENTION TO ROW/COL ORDER!!!)
 		//				ROW * COL
 		std::array<int, TEN * TEN> ten_graph;
-
-		// insert values into graph
-		for (int i = 0; i < ten_graph.size(); ++i)
-			ten_graph[i] = i;
 		
 		// IMPORTANT TO UNDERSTAND
 		// (rows and columns start from 1. So, for example, 
@@ -82,9 +78,9 @@ namespace utility {
 		// and 8th column, but since the array also includes 0, 10, 20, etc, 
 		// it is 0-indexed. So graphically, its the first row of a table, but 
 		// in code, its the 0th row), use 
-		print_matrix(ten_graph, TEN);
-		print_upper_t(ten_graph, TEN);
 
+		// reason why the graphs were generated here was because 
+		// didn't want to deal with passing large arrays between functions
 		// generate random data for 10 x 10 matrix
 		for (int i = 0; i < TEN; ++i) {
 			for (int j = i; j < TEN; ++j)
@@ -96,12 +92,35 @@ namespace utility {
 					
 		}
 
-		std::cout << "\n\n\n";
-		print_matrix(ten_graph, TEN); 
+		// create 100 x 100 matrix
+		std::array<int, HUNDRED * HUNDRED> hun_graph;
 
+		// generate adjacencies with semi-random numbers
+		for (int i = 0; i < HUNDRED; ++i) {
+			for (int j = i; j < HUNDRED; ++j)
+				if (j == i)
+					hun_graph[i * HUNDRED + j] = 0;
+				else {
+					hun_graph[i * HUNDRED + j] = hun_graph[j * HUNDRED + i] = rand() % 25;
+				}
 
-		// EXAMPLE
-		// to access the 5th element of the 7th row: (assert value = 64)
+		}
+
+		// create 1000 x 1000 matrix
+		std::array<int, THOUSAND * THOUSAND> tho_graph;
+
+		// generate adjacencies with semi-random numbers
+		for (int i = 0; i < THOUSAND; ++i) {
+			for (int j = i; j < THOUSAND; ++j)
+				if (j == i)
+					tho_graph[i * THOUSAND + j] = 0;
+				else {
+					tho_graph[i * THOUSAND + j] = tho_graph[j * THOUSAND + i] = rand() % 25;
+				}
+
+		}
+
+		// EXAMPLE: access the 5th element of the 7th row: (assert: value = 64)
 		std::cout << ten_graph[6 * TEN + 4] << std::endl;
 	}
 }
