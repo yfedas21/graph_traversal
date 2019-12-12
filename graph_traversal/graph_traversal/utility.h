@@ -33,7 +33,7 @@ namespace utility {
 				// pick all vertices as destination nodes for previously selected sources
 				for (k = 0; k < LEN; k++) {
 					// checks if the source->intermediate + intermediate->dest is less costly than known minimum cost from source->dest
-					if ((arr[j * LEN + i] != INF && arr[i * LEN + k] != INF)  && (arr[j * LEN + i] + arr[i * LEN + k] < arr[j * LEN + k])) {
+					if ((arr[j * LEN + i] != INF && arr[i * LEN + k] != INF) && (arr[j * LEN + i] + arr[i * LEN + k] < arr[j * LEN + k])) {
 						arr[j * LEN + k] = arr[j * LEN + i] + arr[i * LEN + k];
 					}
 				}
@@ -46,43 +46,44 @@ namespace utility {
 	// all sources dijstra's algorithm
 	// @input graph: the start mem addr; NUM_VERTS: the # of V's
 	int all_dijkstra(int* graph, int NUM_VERTS) {
-
-		// ********************* put timing in here *************************************
-
+		int total_basic_ops = 0;
 		// run dijsktra's algorithm on every source node 
 		for (int i = 0; i < NUM_VERTS; ++i) {
-			//dijkstra(graph, NUM_VERTS, i); 
+			total_basic_ops += dijkstra(graph, NUM_VERTS, i); 
 		}
 
-		return 0; 
+		return total_basic_ops;
 	}
 
 	// calculate the minimum distance between vertex with min distance value 
 	// from the set not already in the tree
 	int min_dist(std::vector<int> costs, std::vector<bool> sp_tree, int SIZE) {
 		int min = INF, min_index;
-	
+
 		// compare values of min with current min
 		for (int i = 0; i < SIZE; ++i) {
 			if (sp_tree.at(i) == false && costs.at(i) <= min)
-				min = costs.at(i), min_index = i; 
+				min = costs.at(i), min_index = i;
 		}
-			
-		std::cout << " min_index is " << min_index << std::endl;
 
-		return min_index; 
+		//std::cout << " min_index is " << min_index << std::endl;
+
+		return min_index;
 	}
 
 	// dijstra's algorithm on single source
 	// @input graph: the mem addr of graph, SIZE: the # of V's
 	//		  src: 0-indexed source (ie first elemnt is graph[0]
-	void dijkstra(int* graph, int SIZE, int src) {
+	int dijkstra(int* graph, int SIZE, int src) {
+		// count number of basic ops
+		int basic_ops = 0; 
+
 		// create vector that holds vertices included
 		// in the shortest path tree
-		std::vector<bool> sp_tree(SIZE, false); 
+		std::vector<bool> sp_tree(SIZE, false);
 
 		// distance to all nodes; init to INF besides the source
-		std::vector<int> dist(SIZE, INF); 
+		std::vector<int> dist(SIZE, INF);
 		// set the source node to cost 0 so it gets picked 
 
 		dist.at(src) = 0; // lowest cost
@@ -100,14 +101,18 @@ namespace utility {
 			// implementation
 			for (int vv = 0; vv < SIZE; ++vv) {
 				if (!sp_tree.at(vv) && graph[min * SIZE + vv] && dist.at(min) != INF
-					&& dist.at(min) + graph[min * SIZE + vv] < dist.at(vv))
-					dist.at(vv) = dist.at(min) + graph[min * SIZE + vv];
+					&& dist.at(min) + graph[min * SIZE + vv] < dist.at(vv)) {
+						dist.at(vv) = dist.at(min) + graph[min * SIZE + vv];
+						basic_ops++; 
+				}
+					
 			}
 		}
 
 		// print costs[], debug function 
 		// for (int j = 0; j < dist.size(); ++j)
 		// 	std::cout << "j is " << j << " and costs.at(j) is " << dist.at(j) << std::endl;
+		return basic_ops; 
 	}
 
 	// function to create an n x n graph using 1-D array
@@ -173,7 +178,7 @@ namespace utility {
 		ten_graph = new int[TEN * TEN];
 
 		// populate the graph with random values (complete graph) 
-		populate_graph(ten_graph, TEN); 
+		populate_graph(ten_graph, TEN);
 
 		// 100 x 100 graph; remember to deallocate!
 		int* hun_graph;
@@ -191,7 +196,7 @@ namespace utility {
 
 
 		// run dijkstra with timing
-		all_dijkstra(ten_graph, TEN); 
+		all_dijkstra(ten_graph, TEN);
 
 		// run bellman-ford with timing 
 		// bellman_ford(inputs)
@@ -206,7 +211,7 @@ namespace utility {
 		std::cout << "Warshalls runtime was: " << warshallsRunTime << std::endl;
 
 
-		
+
 
 
 		// EXAMPLE: HOW TO VIEW GRAPH AS 2D array
@@ -223,8 +228,8 @@ namespace utility {
 		//std::cout << ten_graph[6 * TEN + 4] << std::endl;
 
 		// deallocate memory
-		delete[] ten_graph; 
-		delete[] hun_graph; 
-		delete[] tho_graph; 
+		delete[] ten_graph;
+		delete[] hun_graph;
+		delete[] tho_graph;
 	}
 }
