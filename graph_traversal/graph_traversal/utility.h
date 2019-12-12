@@ -19,6 +19,7 @@
 
 namespace utility {
 
+	// &&&&&&&&&&&&& Warshalls implementation  &&&&&&&&&&&&&&&&&&&
 	// compute the trasitive property of a graph using warshalls algorithm
 	// checks all intermediary nodes and updates given weight matrix if there is a shorter path between nodes
 	// @input arr: the starting memory address of array; LEN the length of a row or column in a weighted adjacency matrix;
@@ -192,11 +193,20 @@ namespace utility {
 		// run dijkstra with timing
 		all_dijkstra(ten_graph, TEN); 
 
-		// run warshall's with timing
-		// warshalls
-
 		// run bellman-ford with timing 
 		// bellman_ford(inputs)
+
+		//////// run warshall's with timing ///////////
+
+		clock_t start = clock();
+		//long long warBasicOps = 0;
+		warshalls(tho_graph, THOUSAND);
+		double warshallsRunTime = static_cast<double>(clock() - start) / CLOCKS_PER_SEC;
+
+		std::cout << "Warshalls runtime was: " << warshallsRunTime << std::endl;
+
+
+		
 
 
 		// EXAMPLE: HOW TO VIEW GRAPH AS 2D array
@@ -210,7 +220,7 @@ namespace utility {
 		//				tho_graph
 
 		// EXAMPLE: access the 5th element of the 7th row:
-		std::cout << ten_graph[6 * TEN + 4] << std::endl;
+		//std::cout << ten_graph[6 * TEN + 4] << std::endl;
 
 		// deallocate memory
 		delete[] ten_graph; 
