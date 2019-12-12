@@ -174,7 +174,6 @@ namespace utility {
 		// populate the graph with random values (complete graph) 
 		populate_graph(ten_graph, TEN); 
 
-
 		// 100 x 100 graph; remember to deallocate!
 		int* hun_graph;
 		hun_graph = new int[HUNDRED * HUNDRED];
@@ -190,13 +189,19 @@ namespace utility {
 		populate_graph(tho_graph, THOUSAND);
 
 
+		// run dijkstra with timing
+		all_dijkstra(ten_graph, TEN); 
 
+		// run warshall's with timing
+		// warshalls
 
+		// run bellman-ford with timing 
+		// bellman_ford(inputs)
 
 
 		// EXAMPLE: HOW TO VIEW GRAPH AS 2D array
 		// print the 10 x 10 matrix for debugging
-		print_graph(ten_graph, 10);
+		// print_graph(ten_graph, 10);
 
 
 		// EXAMPLE: access the graphs
@@ -206,10 +211,6 @@ namespace utility {
 
 		// EXAMPLE: access the 5th element of the 7th row:
 		std::cout << ten_graph[6 * TEN + 4] << std::endl;
-
-
-		warshalls(ten_graph, 10);
-
 
 		// deallocate memory
 		delete[] ten_graph; 
