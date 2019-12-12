@@ -18,6 +18,29 @@
 // file that holds the different algorithm code
 
 namespace utility {
+
+	// compute the trasitive property of a graph using warshalls algorithm
+	// checks all intermediary nodes and updates given weight matrix if there is a shorter path between nodes
+	// @input arr: the starting memory address of array; LEN the length of a row or column in a weighted adjacency matrix;
+	void warshalls(int* arr, int LEN) {
+		int i, j, k;
+
+		// add the set of intermediate vertices/nodes
+		for (i = 0; i < LEN; i++) {
+			// pick a vertex as the source one by one
+			for (j = 0; j < LEN; j++) {
+				// pick all vertices as destination nodes for previously selected sources
+				for (k = 0; k < LEN; k++) {
+					// checks if the source->intermediate + intermediate->dest is less costly than known minimum cost from source->dest
+					if ((arr[j * LEN + i] != INF && arr[i * LEN + k] != INF)  && (arr[j * LEN + i] + arr[i * LEN + k] < arr[j * LEN + k])) {
+						arr[j * LEN + k] = arr[j * LEN + i] + arr[i * LEN + k];
+					}
+				}
+			}
+		}
+	}
+
+
 	// all sources dijstra's algorithm
 	// @input graph: the start mem addr; NUM_VERTS: the # of V's
 	int all_dijkstra(int* graph, int NUM_VERTS) {
@@ -165,6 +188,10 @@ namespace utility {
 
 		// EXAMPLE: access the 5th element of the 7th row:
 		std::cout << ten_graph[6 * TEN + 4] << std::endl;
+
+
+		warshalls(ten_graph, 10);
+
 
 		// deallocate memory
 		delete[] ten_graph; 

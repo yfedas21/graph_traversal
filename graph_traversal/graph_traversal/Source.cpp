@@ -4,7 +4,7 @@
 
 int main() {
 	// seed the random generator
-	srand(time(NULL));
+	//srand(time(NULL));
 
 
 	// use utility function 
