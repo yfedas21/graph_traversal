@@ -40,7 +40,8 @@ namespace utility {
 		}
 	}
 
-
+	// &&&&&&&&&&&&&&& Dijkstra implementation &&&&&&&&&&&&&&&&&&&&&&
+	// Yuriy 
 	// all sources dijstra's algorithm
 	// @input graph: the start mem addr; NUM_VERTS: the # of V's
 	int all_dijkstra(int* graph, int NUM_VERTS) {
@@ -58,13 +59,15 @@ namespace utility {
 	// calculate the minimum distance between vertex with min distance value 
 	// from the set not already in the tree
 	int min_dist(std::vector<int> costs, std::vector<bool> sp_tree, int SIZE) {
-		int min = INF, min_index; 
-
+		int min = INF, min_index;
+	
 		// compare values of min with current min
 		for (int i = 0; i < SIZE; ++i) {
 			if (sp_tree.at(i) == false && costs.at(i) <= min)
 				min = costs.at(i), min_index = i; 
 		}
+			
+		std::cout << " min_index is " << min_index << std::endl;
 
 		return min_index; 
 	}
@@ -78,17 +81,32 @@ namespace utility {
 		std::vector<bool> sp_tree(SIZE, false); 
 
 		// distance to all nodes; init to INF besides the source
-		std::vector<int> costs(SIZE, INF); 
+		std::vector<int> dist(SIZE, INF); 
 		// set the source node to cost 0 so it gets picked 
-		costs.at(src) = 0; // lowest cost
+
+		dist.at(src) = 0; // lowest cost
 
 		// src is cost 0, included in sp_tree
-		sp_tree.at(src) = true; 
+		//sp_tree.at(src) = true; 
 
 		// for every vertex in the graph 
 		for (int v = 0; v < SIZE - 1; ++v) {
-			int min = min_dist(costs, sp_tree, SIZE); 
+			int min = min_dist(dist, sp_tree, SIZE);
+
+			// mark as picked 
+			sp_tree.at(min) = true;
+
+			// implementation
+			for (int vv = 0; vv < SIZE; ++vv) {
+				if (!sp_tree.at(vv) && graph[min * SIZE + vv] && dist.at(min) != INF
+					&& dist.at(min) + graph[min * SIZE + vv] < dist.at(vv))
+					dist.at(vv) = dist.at(min) + graph[min * SIZE + vv];
+			}
 		}
+
+		// print costs[], debug function 
+		// for (int j = 0; j < dist.size(); ++j)
+		// 	std::cout << "j is " << j << " and costs.at(j) is " << dist.at(j) << std::endl;
 	}
 
 	// function to create an n x n graph using 1-D array
