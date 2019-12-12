@@ -33,7 +33,7 @@ namespace utility {
 				// pick all vertices as destination nodes for previously selected sources
 				for (k = 0; k < LEN; k++) {
 					// checks if the source->intermediate + intermediate->dest is less costly than known minimum cost from source->dest
-					if ((arr[j * LEN + i] != INF && arr[i * LEN + k] != INF)  && (arr[j * LEN + i] + arr[i * LEN + k] < arr[j * LEN + k])) {
+					if ((arr[j * LEN + i] != INF && arr[i * LEN + k] != INF) && (arr[j * LEN + i] + arr[i * LEN + k] < arr[j * LEN + k])) {
 						arr[j * LEN + k] = arr[j * LEN + i] + arr[i * LEN + k];
 					}
 				}
@@ -45,15 +45,22 @@ namespace utility {
 	// Yuriy 
 	// all sources dijstra's algorithm
 	// @input graph: the start mem addr; NUM_VERTS: the # of V's
+<<<<<<< HEAD
 
 	// prototype
 	int dijkstra(int* graph, int SIZE, int src);
 
+=======
+>>>>>>> 412603f1779da721c7ad50c537c70299429389ef
 	int all_dijkstra(int* graph, int NUM_VERTS) {
 		int total_basic_ops = 0;
 		// run dijsktra's algorithm on every source node 
 		for (int i = 0; i < NUM_VERTS; ++i) {
+<<<<<<< HEAD
 			total_basic_ops += dijkstra(graph, NUM_VERTS, i);
+=======
+			total_basic_ops += dijkstra(graph, NUM_VERTS, i); 
+>>>>>>> 412603f1779da721c7ad50c537c70299429389ef
 		}
 
 		return total_basic_ops;
@@ -80,7 +87,11 @@ namespace utility {
 	//		  src: 0-indexed source (ie first elemnt is graph[0]
 	int dijkstra(int* graph, int SIZE, int src) {
 		// count number of basic ops
+<<<<<<< HEAD
 		int basic_ops = 0;
+=======
+		int basic_ops = 0; 
+>>>>>>> 412603f1779da721c7ad50c537c70299429389ef
 
 		// create vector that holds vertices included
 		// in the shortest path tree
@@ -106,17 +117,28 @@ namespace utility {
 			for (int vv = 0; vv < SIZE; ++vv) {
 				if (!sp_tree.at(vv) && graph[min * SIZE + vv] && dist.at(min) != INF
 					&& dist.at(min) + graph[min * SIZE + vv] < dist.at(vv)) {
+<<<<<<< HEAD
 					dist.at(vv) = dist.at(min) + graph[min * SIZE + vv];
 					basic_ops++;
 				}
 
+=======
+						dist.at(vv) = dist.at(min) + graph[min * SIZE + vv];
+						basic_ops++; 
+				}
+					
+>>>>>>> 412603f1779da721c7ad50c537c70299429389ef
 			}
 		}
 
 		// print costs[], debug function 
 		// for (int j = 0; j < dist.size(); ++j)
 		// 	std::cout << "j is " << j << " and costs.at(j) is " << dist.at(j) << std::endl;
+<<<<<<< HEAD
 		return basic_ops;
+=======
+		return basic_ops; 
+>>>>>>> 412603f1779da721c7ad50c537c70299429389ef
 	}
 
 	// function to create an n x n graph using 1-D array
@@ -182,7 +204,7 @@ namespace utility {
 		ten_graph = new int[TEN * TEN];
 
 		// populate the graph with random values (complete graph) 
-		populate_graph(ten_graph, TEN); 
+		populate_graph(ten_graph, TEN);
 
 		// 100 x 100 graph; remember to deallocate!
 		int* hun_graph;
@@ -199,6 +221,7 @@ namespace utility {
 		populate_graph(tho_graph, THOUSAND);
 
 
+<<<<<<< HEAD
 		////////// run dijkstra with timing /////////
 
 		clock_t start = clock();
@@ -207,6 +230,10 @@ namespace utility {
 		std::cout << "Dijkstra runtime was: " << dijkstraRunTime << std::endl;
 
 		////////// run bellman-ford with timing  ////////////
+=======
+		// run dijkstra with timing
+		all_dijkstra(ten_graph, TEN);
+>>>>>>> 412603f1779da721c7ad50c537c70299429389ef
 
 		// bellman_ford(inputs)
 
@@ -220,7 +247,7 @@ namespace utility {
 		std::cout << "Warshalls runtime was: " << warshallsRunTime << std::endl;
 
 
-		
+
 
 
 		// EXAMPLE: HOW TO VIEW GRAPH AS 2D array
@@ -237,8 +264,8 @@ namespace utility {
 		//std::cout << ten_graph[6 * TEN + 4] << std::endl;
 
 		// deallocate memory
-		delete[] ten_graph; 
-		delete[] hun_graph; 
-		delete[] tho_graph; 
+		delete[] ten_graph;
+		delete[] hun_graph;
+		delete[] tho_graph;
 	}
 }
