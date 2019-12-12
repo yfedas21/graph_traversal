@@ -92,6 +92,10 @@ namespace utility {
 					
 		}
 
+		// EXAMPLE: HOW TO VIEW GRAPH AS 2D array
+		// print the 10 x 10 matrix for debugging
+		print_matrix(ten_graph, 10); 
+
 		// create 100 x 100 matrix
 		std::array<int, HUNDRED * HUNDRED> hun_graph;
 
@@ -120,6 +124,11 @@ namespace utility {
 
 		}
 
+		// EXAMPLE: access the graphs
+		// the 10 x 10: ten_graph
+		// 				hun_graph
+		//				tho_graph
+		
 		// EXAMPLE: access the 5th element of the 7th row: (assert: value = 64)
 		std::cout << ten_graph[6 * TEN + 4] << std::endl;
 	}
