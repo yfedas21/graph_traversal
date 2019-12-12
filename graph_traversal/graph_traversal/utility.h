@@ -45,44 +45,49 @@ namespace utility {
 	// Yuriy 
 	// all sources dijstra's algorithm
 	// @input graph: the start mem addr; NUM_VERTS: the # of V's
+
+	// prototype
+	int dijkstra(int* graph, int SIZE, int src);
+
 	int all_dijkstra(int* graph, int NUM_VERTS) {
-
-		// ********************* put timing in here *************************************
-
+		int total_basic_ops = 0;
 		// run dijsktra's algorithm on every source node 
 		for (int i = 0; i < NUM_VERTS; ++i) {
-			//dijkstra(graph, NUM_VERTS, i); 
+			total_basic_ops += dijkstra(graph, NUM_VERTS, i);
 		}
 
-		return 0; 
+		return total_basic_ops;
 	}
 
 	// calculate the minimum distance between vertex with min distance value 
 	// from the set not already in the tree
 	int min_dist(std::vector<int> costs, std::vector<bool> sp_tree, int SIZE) {
 		int min = INF, min_index;
-	
+
 		// compare values of min with current min
 		for (int i = 0; i < SIZE; ++i) {
 			if (sp_tree.at(i) == false && costs.at(i) <= min)
-				min = costs.at(i), min_index = i; 
+				min = costs.at(i), min_index = i;
 		}
-			
-		std::cout << " min_index is " << min_index << std::endl;
 
-		return min_index; 
+		//std::cout << " min_index is " << min_index << std::endl;
+
+		return min_index;
 	}
 
 	// dijstra's algorithm on single source
 	// @input graph: the mem addr of graph, SIZE: the # of V's
 	//		  src: 0-indexed source (ie first elemnt is graph[0]
-	void dijkstra(int* graph, int SIZE, int src) {
+	int dijkstra(int* graph, int SIZE, int src) {
+		// count number of basic ops
+		int basic_ops = 0;
+
 		// create vector that holds vertices included
 		// in the shortest path tree
-		std::vector<bool> sp_tree(SIZE, false); 
+		std::vector<bool> sp_tree(SIZE, false);
 
 		// distance to all nodes; init to INF besides the source
-		std::vector<int> dist(SIZE, INF); 
+		std::vector<int> dist(SIZE, INF);
 		// set the source node to cost 0 so it gets picked 
 
 		dist.at(src) = 0; // lowest cost
@@ -100,14 +105,18 @@ namespace utility {
 			// implementation
 			for (int vv = 0; vv < SIZE; ++vv) {
 				if (!sp_tree.at(vv) && graph[min * SIZE + vv] && dist.at(min) != INF
-					&& dist.at(min) + graph[min * SIZE + vv] < dist.at(vv))
+					&& dist.at(min) + graph[min * SIZE + vv] < dist.at(vv)) {
 					dist.at(vv) = dist.at(min) + graph[min * SIZE + vv];
+					basic_ops++;
+				}
+
 			}
 		}
 
 		// print costs[], debug function 
 		// for (int j = 0; j < dist.size(); ++j)
 		// 	std::cout << "j is " << j << " and costs.at(j) is " << dist.at(j) << std::endl;
+		return basic_ops;
 	}
 
 	// function to create an n x n graph using 1-D array
@@ -190,15 +199,20 @@ namespace utility {
 		populate_graph(tho_graph, THOUSAND);
 
 
-		// run dijkstra with timing
-		all_dijkstra(ten_graph, TEN); 
-
-		// run bellman-ford with timing 
-		// bellman_ford(inputs)
-
-		//////// run warshall's with timing ///////////
+		////////// run dijkstra with timing /////////
 
 		clock_t start = clock();
+		all_dijkstra(tho_graph, THOUSAND); 
+		double dijkstraRunTime = static_cast<double>(clock() - start) / CLOCKS_PER_SEC;
+		std::cout << "Dijkstra runtime was: " << dijkstraRunTime << std::endl;
+
+		////////// run bellman-ford with timing  ////////////
+
+		// bellman_ford(inputs)
+
+
+		//////// run warshall's with timing ///////////
+		start = clock();
 		//long long warBasicOps = 0;
 		warshalls(tho_graph, THOUSAND);
 		double warshallsRunTime = static_cast<double>(clock() - start) / CLOCKS_PER_SEC;
